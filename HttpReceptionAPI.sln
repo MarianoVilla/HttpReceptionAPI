@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.902
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "WebSocketsServer.Server", "WebSocketsServer.Server\WebSocketsServer.Server.vbproj", "{C88CC631-F1F1-426F-BFEC-4373DD332E18}"
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "HttpReceptionAPI.Server", "WebSocketsServer.Server\HttpReceptionAPI.Server.vbproj", "{C88CC631-F1F1-426F-BFEC-4373DD332E18}"
 EndProject
-Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "WebSocketsServer.Tests", "WebSocketsServer.Tests\WebSocketsServer.Tests.vbproj", "{AA6217AF-7E08-41E5-A0FE-B3D78DE1E26A}"
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "HttpReceptionAPI.Tests", "WebSocketsServer.Tests\HttpReceptionAPI.Tests.vbproj", "{AA6217AF-7E08-41E5-A0FE-B3D78DE1E26A}"
 EndProject
-Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "WebSocketsServer.DA", "WebSocketsServer.DA\WebSocketsServer.DA.vbproj", "{3A171A0E-1CAC-452E-ACC7-13131508B553}"
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "HttpReceptionAPI.DA", "WebSocketsServer.DA\HttpReceptionAPI.DA.vbproj", "{3A171A0E-1CAC-452E-ACC7-13131508B553}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
