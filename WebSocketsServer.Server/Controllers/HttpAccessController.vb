@@ -34,7 +34,7 @@ Namespace Controllers
 
         End Sub
 
-        'http://IP:Port/api/HttpAccess/PostMultipart
+        '   
         Public Async Function PostMultipart() As Threading.Tasks.Task(Of HttpResponseMessage)
 
             If Not Request.Content.IsMimeMultipartContent("form-data") Then

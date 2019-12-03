@@ -21,7 +21,7 @@ Public Class FormItem
     ''' </summary>
     ''' Each key-value has to hold the JSON name and the Assembly Name of the class we'll use to deserialize.
     ''' This is made to avoid coupling JSON objects names to our static classes.
-    Public Shared SupportedJsonObjects As Dictionary(Of String, String) = New Dictionary(Of String, String) From
+    Public Shared ReadOnly SupportedJsonObjects As Dictionary(Of String, String) = New Dictionary(Of String, String) From
         {
          {"boundary", "WebSocketsServer.Server.Boundary"},
          {"faceCapture", "WebSocketsServer.Server.FaceCaptureParent"}
