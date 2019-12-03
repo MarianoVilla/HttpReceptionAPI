@@ -98,5 +98,6 @@
 <h2>File Upload</h2>   Select file
 <input type="file" id="filename" />
 <input type="button" value="Upload" onclick="sendFile()" />
+<h2>To use the standard HTTP API, use ThisWebsite/api</h2>
 <p id="Status"></p>
 <ul id="messages" />

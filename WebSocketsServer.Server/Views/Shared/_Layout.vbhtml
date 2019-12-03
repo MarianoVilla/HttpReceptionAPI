@@ -33,7 +33,7 @@
     <div  class="container body-content">
         <hr />
         <footer>
-            <p>&copy; @DateTime.Now.Year - WebSocket Server</p>
+            <p>&copy; @DateTime.Now.Year - Server</p>
         </footer>
     </div>
 

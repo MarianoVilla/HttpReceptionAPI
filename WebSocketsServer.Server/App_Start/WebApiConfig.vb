@@ -13,7 +13,7 @@ Public Class WebApiConfig
         config.Routes.MapHttpRoute(
             name:="DefaultApi",
             routeTemplate:="api/{controller}/{action}/{id}",
-            defaults:=New With {.id = RouteParameter.Optional}
+            defaults:=New With {.controller = "HttpAccess", .action = "GetValues", .id = RouteParameter.Optional}
         )
     End Sub
 End Class

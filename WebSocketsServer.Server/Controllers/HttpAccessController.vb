@@ -9,14 +9,14 @@ Imports Newtonsoft.Json
 Namespace Controllers
     ''' <summary>
     ''' Standard API controller.
-    ''' Route: http:TheAPI:ThePort/api/HttpAccess/PostMultipart
+    ''' Route: http:TheIP:ThePort/api/HttpAccess/PostMultipart
     ''' </summary>
     Public Class HttpAccessController
         Inherits ApiController
 
 
         Public Function GetValues() As String
-            Return "This is the HTTP interface of the Web API. To use a socket connection, you should use WS as the protocol (from a browser), add an Upgrade-connection header to the request."
+            Return "This is the HTTP interface of the Web API. To post  To use a socket connection, you should use WS as the protocol (from a browser), add an Upgrade-connection header to the request."
         End Function
 
         ''' <summary>
