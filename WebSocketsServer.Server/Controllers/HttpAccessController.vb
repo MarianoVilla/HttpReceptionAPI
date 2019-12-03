@@ -74,54 +74,56 @@ Namespace Controllers
             'and make the API use them dynamically, by changing the config.
             Dim DataHandler = New HttpDefaultDataHandler()
             DataHandler.Request = Request
-            ProcessKeys(Provider, DataHandler)
-            ProcessFiles(Provider, DataHandler, root)
+            HttpAccessControllerHelper.ProcessKeys(Provider, DataHandler)
+            HttpAccessControllerHelper.ProcessFiles(Provider, DataHandler, root)
 
             Return DataHandler
 
         End Function
 
-        Private Sub ProcessFiles(Provider As MultipartFormDataStreamProvider, DataHandler As HttpDefaultDataHandler, root As String)
-            For Each file In Provider.FileData
-                Dim formItem = New FormItem()
-                Dim Name = file.Headers.ContentDisposition.FileName?.Trim("""")
-                Name = Path.GetFileNameWithoutExtension(Name) + "_" + Guid.NewGuid.ToString() + Path.GetExtension(Name)
-                Dim LocalFileName = file.LocalFileName
-                Dim FilePath = Path.Combine(root, Name)
-                formItem.Data = IO.File.ReadAllBytes(file.LocalFileName)
-                formItem.MediaType = GetMediaType(file.Headers)
-                formItem.FileName = Name
-                formItem.Name = file.Headers.ContentDisposition.FileName
-                IO.File.Move(LocalFileName, FilePath)
-                DataHandler.FormItems.Add(formItem)
-            Next
+        'Private Sub ProcessFiles(Provider As MultipartFormDataStreamProvider, DataHandler As HttpDefaultDataHandler, root As String)
 
-        End Sub
+        '    For Each file In Provider.FileData
+        '        Dim formItem = New FormItem()
+        '        Dim Name = file.Headers.ContentDisposition.FileName?.Trim("""")
+        '        Name = Path.GetFileNameWithoutExtension(Name) + "_" + Guid.NewGuid.ToString() + Path.GetExtension(Name)
+        '        Dim LocalFileName = file.LocalFileName
+        '        Dim FilePath = Path.Combine(root, Name)
+        '        formItem.Data = IO.File.ReadAllBytes(file.LocalFileName)
+        '        formItem.MediaType = GetMediaType(file.Headers)
+        '        formItem.FileName = Name
+        '        formItem.Name = file.Headers.ContentDisposition.FileName
+        '        IO.File.Move(LocalFileName, FilePath)
+        '        DataHandler.FormItems.Add(formItem)
+        '    Next
 
-        Private Sub ProcessKeys(Provider As MultipartFormDataStreamProvider, DataHandler As HttpDefaultDataHandler)
-            Dim i = 0
-            For Each key In Provider.FormData.AllKeys
-                Dim formItem = New FormItem()
-                For Each value In Provider.FormData.GetValues(key)
-                    formItem.Name = Provider.Contents.ElementAt(i).Headers.ContentDisposition.Name?.Trim("""")
-                    formItem.Raw = value
-                    Dim KnownJsonObject As String = FormItem.SupportedJsonObjects.FirstOrDefault(Function(o) o.Key = key).Value
-                    If (KnownJsonObject IsNot Nothing) Then
-                        formItem.JsonObject = DeserializeFromTypeName(value, KnownJsonObject)
-                    End If
-                    i = i + 1
-                Next
-                DataHandler.FormItems.Add(formItem)
-            Next
-        End Sub
+        'End Sub
 
-        Private Function DeserializeFromTypeName(JsonValue As String, TypeName As String)
-            Dim TheTypeOfTheJSON As Type = Type.GetType(TypeName)
-            Return JsonConvert.DeserializeObject(JsonValue, TheTypeOfTheJSON)
-        End Function
+        'Private Sub ProcessKeys(Provider As MultipartFormDataStreamProvider, DataHandler As HttpDefaultDataHandler)
+        '    Dim i = 0
+        '    For Each key In Provider.FormData.AllKeys
+        '        Dim formItem = New FormItem()
+        '        For Each value In Provider.FormData.GetValues(key)
+        '            formItem.Name = Provider.Contents.ElementAt(i).Headers.ContentDisposition.Name?.Trim("""")
+        '            formItem.Raw = value
+        '            Dim KnownJsonObject As String = FormItem.SupportedJsonObjects.FirstOrDefault(Function(o) o.Key = key).Value
+        '            If (KnownJsonObject IsNot Nothing) Then
+        '                formItem.JsonObject = DeserializeFromTypeName(value, KnownJsonObject)
+        '            End If
+        '            i = i + 1
+        '        Next
+        '        DataHandler.FormItems.Add(formItem)
+        '    Next
+        'End Sub
 
-        Private Function GetMediaType(Headers As HttpContentHeaders)
-            Return If(Headers.ContentType Is Nothing, "", If(String.IsNullOrEmpty(Headers.ContentType.MediaType), "", Headers.ContentType.MediaType))
-        End Function
+        'Private Function DeserializeFromTypeName(JsonValue As String, TypeName As String)
+        '    Dim TheTypeOfTheJSON As Type = Type.GetType(TypeName)
+        '    Return JsonConvert.DeserializeObject(JsonValue, TheTypeOfTheJSON)
+        'End Function
+
+        'Private Function GetMediaType(Headers As HttpContentHeaders)
+        '    Return If(Headers.ContentType Is Nothing, "", If(String.IsNullOrEmpty(Headers.ContentType.MediaType), "", Headers.ContentType.MediaType))
+        'End Function
+
     End Class
 End Namespace
