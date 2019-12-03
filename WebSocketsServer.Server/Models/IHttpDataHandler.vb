@@ -7,6 +7,8 @@
 Friend Interface IHttpDataHandler
 
     Sub SaveItems()
+    Sub SaveItemsAsync()
     Sub ProcessItems()
+    Sub ProcessItemsAsync()
 
 End Interface

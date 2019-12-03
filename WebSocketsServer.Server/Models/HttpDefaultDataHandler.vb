@@ -36,13 +36,13 @@ Public Class HttpDefaultDataHandler
     End Sub
 
 #Disable Warning BC42356 ' This async method lacks 'Await' operators and so will run synchronously
-    Public Async Sub ProcessItemsAsync()
+    Public Async Sub ProcessItemsAsync() Implements IHttpDataHandler.ProcessItemsAsync
 
         'Await some work.
 
     End Sub
 
-    Public Async Sub SaveItemsAsync()
+    Public Async Sub SaveItemsAsync() Implements IHttpDataHandler.SaveItemsAsync
 
         'Await some saving work.
 
