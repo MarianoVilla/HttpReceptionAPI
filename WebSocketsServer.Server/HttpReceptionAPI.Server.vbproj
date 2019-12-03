@@ -189,13 +189,6 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="Controllers\HomeController.vb" />
-    <Compile Include="WebSocketsServer\WebSocketEventHandlerSample.vb" />
-    <Compile Include="WebSocketsServer\WebSocketsServer.ashx.vb">
-      <DependentUpon>WebSocketsServer.ashx</DependentUpon>
-    </Compile>
-    <Compile Include="WebSocketsServer\WebSocketsServerSample.ashx.vb">
-      <DependentUpon>WebSocketsServerSample.ashx</DependentUpon>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="My Project\Resources.resx">
@@ -237,8 +230,6 @@
     <Content Include="Scripts\jquery-3.3.1.slim.min.js" />
     <Content Include="Scripts\jquery-3.3.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.3.1.min.map" />
-    <Content Include="WebSocketsServer\WebSocketsServerSample.ashx" />
-    <Content Include="WebSocketsServer\WebSocketsServer.ashx" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="favicon.ico" />

@@ -92,12 +92,12 @@
     }
 </script>
 @*TODO: Beautify.*@
-<h2>Press the buttons for a simple socket connection sample!</h2>
+@*<h2>Press the buttons for a simple socket connection sample!</h2>
 <input type="button" id="connect" value="Connect" class="btn" onclick="connectionTest()" />
 <input type="button" id="disconnect" value="Disconnect" class="btn" onclick="disconnectFromSocket()" />
 <h2>File Upload</h2>   Select file
 <input type="file" id="filename" />
 <input type="button" value="Upload" onclick="sendFile()" />
-<h2>To use the standard HTTP API, use ThisWebsite/api</h2>
 <p id="Status"></p>
-<ul id="messages" />
+<ul id="messages" />*@
+<h2>To use the standard HTTP API, use the /api route.</h2>
