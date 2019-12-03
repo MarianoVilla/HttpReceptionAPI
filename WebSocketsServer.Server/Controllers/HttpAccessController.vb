@@ -103,18 +103,22 @@ Namespace Controllers
             For Each key In Provider.FormData.AllKeys
                 Dim formItem = New FormItem()
                 For Each value In Provider.FormData.GetValues(key)
-                    Dim Element = Provider.Contents.ElementAt(i)
-                    formItem.Name = Element.Headers.ContentDisposition.Name?.Trim("""")
+                    formItem.Name = Provider.Contents.ElementAt(i).Headers.ContentDisposition.Name?.Trim("""")
                     formItem.Raw = value
                     Dim KnownJsonObject As String = FormItem.SupportedJsonObjects.FirstOrDefault(Function(o) o.Key = key).Value
                     If (KnownJsonObject IsNot Nothing) Then
-                        Dim TheTypeOfTheJSON As Type = Type.GetType(KnownJsonObject)
-                        formItem.JsonObject = JsonConvert.DeserializeObject(value, TheTypeOfTheJSON)
+                        formItem.JsonObject = DeserializeFromTypeName(value, KnownJsonObject)
                     End If
+                    i = i + 1
                 Next
                 DataHandler.FormItems.Add(formItem)
             Next
         End Sub
+
+        Private Function DeserializeFromTypeName(JsonValue As String, TypeName As String)
+            Dim TheTypeOfTheJSON As Type = Type.GetType(TypeName)
+            Return JsonConvert.DeserializeObject(JsonValue, TheTypeOfTheJSON)
+        End Function
 
         Private Function GetMediaType(Headers As HttpContentHeaders)
             Return If(Headers.ContentType Is Nothing, "", If(String.IsNullOrEmpty(Headers.ContentType.MediaType), "", Headers.ContentType.MediaType))
