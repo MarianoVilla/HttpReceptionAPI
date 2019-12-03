@@ -1,31 +1,102 @@
-﻿@Code
-    ViewData("Title") = "Home Page"
-End Code
+﻿
+<script type="text/javascript">
+    //TODO: Clean up.
+    var connection;
+    var interval;
+    function getSocketURL() {
+        var loc = window.location, uri;
+        uri = loc.protocol === "https:" ? "wss:" : "ws:"
+        uri += "//" + loc.host;
+        uri += "/WebSocketsServer/WebSocketsServerSample.ashx";
+        return uri;
+    }
+    function getSocketConnection() {
+        let host = getSocketURL();
+        console.log(host);
+        connection = new WebSocket(host);
+        connection.host = host;
+        return connection;
+    }
+    function connectionTest() {
 
-<div class="jumbotron">
-    <h1>ASP.NET</h1>
-    <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
-    <p><a href="https://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
-</div>
+        connection = getSocketConnection();
+        connection.onopen = function () {
+            interval = setInterval(() => connection.send("Hey, this is a client message!"), 3000);
+            $("#connect").css("color", "green");
+            $("#disconnect").css("color", "red");
 
-<div class="row">
-    <div class="col-md-4">
-        <h2>Getting started</h2>
-        <p>
-            ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-            enables a clean separation of concerns and gives you full control over markup
-            for enjoyable, agile development.
-        </p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Get more libraries</h2>
-        <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Web Hosting</h2>
-        <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
-    </div>
-</div>
+        }
+        connection.onmessage = (message) => {
+            let data = window.JSON.parse(message.data);
+
+            $("<li/>").html(data).appendTo($('#messages'));
+        };
+        connection.onclose = () => {
+            $("<li/>").html("We've lost connection!").appendTo($('#messages'));
+            clearInterval(interval);
+            $(".btn").css("color", "grey");
+        }
+    }
+    function disconnectFromSocket() {
+        if (connection) {
+            connection.close();
+        }
+    }
+    this.send = function (message, callback) {
+        this.waitForConnection(function () {
+            connection.send(message);
+            if (typeof callback !== 'undefined') {
+                callback();
+            }
+        }, 1000);
+    };
+
+    this.waitForConnection = function (callback, interval) {
+        if (connection.readyState === 1) {
+            callback();
+        } else {
+            var that = this;
+            setTimeout(function () {
+                that.waitForConnection(callback, interval);
+            }, interval);
+        }
+    };
+    function sendFile() {
+
+        connection = connection || getSocketConnection();
+
+        if (!connection.readyState) {
+            connection = getSocketConnection();
+        }
+        var file = document.getElementById('filename').files[0];
+
+        var reader = new FileReader();
+
+        reader.loadend = function (e) {
+
+        };
+
+        reader.onload = function (e) {
+
+            var rawData = e.target.result;
+            var byteArray = new Uint8Array(rawData);
+
+            globalThis.send(byteArray.buffer);
+
+            console.log("the File has been transferred.\n");
+
+        };
+
+        reader.readAsArrayBuffer(file);
+
+    }
+</script>
+@*TODO: Beautify.*@
+<h2>Press the buttons for a simple socket connection sample!</h2>
+<input type="button" id="connect" value="Connect" class="btn" onclick="connectionTest()" />
+<input type="button" id="disconnect" value="Disconnect" class="btn" onclick="disconnectFromSocket()" />
+<h2>File Upload</h2>   Select file
+<input type="file" id="filename" />
+<input type="button" value="Upload" onclick="sendFile()" />
+<p id="Status"></p>
+<ul id="messages" />
