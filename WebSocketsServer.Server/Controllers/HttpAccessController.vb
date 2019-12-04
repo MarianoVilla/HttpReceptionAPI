@@ -4,6 +4,7 @@ Imports System.Net.Http
 Imports System.Net.Http.Headers
 Imports System.Reflection
 Imports System.Web.Http
+Imports Alpha.Utilidades.General
 Imports Newtonsoft.Json
 
 Namespace Controllers
@@ -16,7 +17,7 @@ Namespace Controllers
 
 
         Public Function GetValues() As String
-            Return "This is the HTTP interface of the Web API. To post  To use a socket connection, you should use WS as the protocol (from a browser), add an Upgrade-connection header to the request."
+            Return "This is the HTTP interface of the Web API."
         End Function
 
         ''' <summary>
@@ -34,12 +35,14 @@ Namespace Controllers
 
         End Sub
 
-        '   
+        'Route: api/HttpAccess/PostMultipart 
         Public Async Function PostMultipart() As Threading.Tasks.Task(Of HttpResponseMessage)
 
             If Not Request.Content.IsMimeMultipartContent("form-data") Then
+                LogsUtils.Loguear("Received a non-form-data request", TipoLogEnum.Debug)
                 Return Request.CreateResponse(HttpStatusCode.BadRequest)
             End If
+
 
             Dim ctx As HttpContext = HttpContext.Current
             Dim root As String = ctx.Server.MapPath("~/App_Data")
@@ -50,6 +53,8 @@ Namespace Controllers
 
                 Dim DataHandler As HttpDefaultDataHandler = ProcessMultipart(provider, root)
 
+
+
                 'At this point, you have an HttpDefaultDataHandler (see HttpDefaultDataHandler) with all the items in this request.
                 'To handle the data, you would save or process the data, like so:
                 'DataHandler.SaveItems()
@@ -58,9 +63,8 @@ Namespace Controllers
 
 
             Catch ex As Exception
-
+                LogsUtils.Loguear("An error ocurred while processing a request: " + ex.Message)
                 Return Request.CreateResponse(HttpStatusCode.InternalServerError)
-
             End Try
             Return Request.CreateResponse(HttpStatusCode.OK)
 
@@ -80,6 +84,14 @@ Namespace Controllers
             Return DataHandler
 
         End Function
+
+
+
+
+
+
+
+
 
         'Private Sub ProcessFiles(Provider As MultipartFormDataStreamProvider, DataHandler As HttpDefaultDataHandler, root As String)
 
