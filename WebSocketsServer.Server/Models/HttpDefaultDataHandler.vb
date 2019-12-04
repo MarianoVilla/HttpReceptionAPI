@@ -9,9 +9,9 @@ Public Class HttpDefaultDataHandler
     ''' A List of <see cref="FormItem"/>. This list would have everything that came in a given POST.
     ''' </summary>
     ''' <returns></returns>
-    Public Property FormItems As List(Of FormItem) = New List(Of FormItem)
+    Public Property FormItems As List(Of FormItem) = New List(Of FormItem) Implements IHttpDataHandler.FormItems
 
-    Public Property Request As HttpRequestMessage
+    Public Property Request As HttpRequestMessage Implements IHttpDataHandler.Request
 
 
     Public Sub SaveItems() Implements IHttpDataHandler.SaveItems
@@ -36,17 +36,17 @@ Public Class HttpDefaultDataHandler
     End Sub
 
 #Disable Warning BC42356 ' This async method lacks 'Await' operators and so will run synchronously
-    Public Async Sub ProcessItemsAsync() Implements IHttpDataHandler.ProcessItemsAsync
+    Public Async Function ProcessItemsAsync() As Threading.Tasks.Task Implements IHttpDataHandler.ProcessItemsAsync
 
         'Await some work.
 
-    End Sub
+    End Function
 
-    Public Async Sub SaveItemsAsync() Implements IHttpDataHandler.SaveItemsAsync
+    Public Async Function SaveItemsAsync() As Threading.Tasks.Task Implements IHttpDataHandler.SaveItemsAsync
 
         'Await some saving work.
 
-    End Sub
+    End Function
 
 #Enable Warning BC42356 ' This async method lacks 'Await' operators and so will run synchronously
 

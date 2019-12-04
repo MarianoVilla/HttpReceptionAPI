@@ -171,6 +171,7 @@
     <Compile Include="Global.asax.vb">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\HttpFileSystemDataHandler.vb" />
     <Compile Include="Models\JSONModels\Boundary.vb" />
     <Compile Include="Models\JSONModels\FaceCapture.vb" />
     <Compile Include="Models\FormItem.vb" />

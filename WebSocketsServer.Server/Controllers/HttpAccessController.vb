@@ -29,7 +29,9 @@ Namespace Controllers
 
         ''' <summary>
         ''' In the same manner as in PostMultipart, you could route to api/HttpAccess/PostMultipart and handle bytes.
+        ''' Route: api/HttpAccess/PostImage
         ''' </summary>
+
         Public Sub PostImage(<FromBody()> ByVal image As Byte())
 
 
@@ -43,7 +45,6 @@ Namespace Controllers
                 Return Request.CreateResponse(HttpStatusCode.BadRequest)
             End If
 
-
             Dim ctx As HttpContext = HttpContext.Current
             Dim root As String = ctx.Server.MapPath("~/App_Data")
             Dim provider As MultipartFormDataStreamProvider = New MultipartFormDataStreamProvider(root)
@@ -52,6 +53,8 @@ Namespace Controllers
             Try
 
                 Dim DataHandler As HttpDefaultDataHandler = ProcessMultipart(provider, root)
+
+
 
 
 
@@ -77,6 +80,7 @@ Namespace Controllers
             'you could add the kind of handler as a parameter in the Web.config. That way, you could implement different handlers
             'and make the API use them dynamically, by changing the config.
             Dim DataHandler = New HttpDefaultDataHandler()
+
             DataHandler.Request = Request
             HttpAccessControllerHelper.ProcessKeys(Provider, DataHandler)
             HttpAccessControllerHelper.ProcessFiles(Provider, DataHandler, root)
