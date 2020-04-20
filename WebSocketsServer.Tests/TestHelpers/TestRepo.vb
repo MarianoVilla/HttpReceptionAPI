@@ -45,7 +45,16 @@ Public Class TestRepo
 					""pId"":	""2019112911044610600N50XF4v550Y3"",
 					""faceScore"":	62,
 					""stayDuration"":	0,
-					""captureEndMark"":	false
+					""captureEndMark"":	false,
+					""swingAngle"":	0,
+					""tiltAngle"":	0,
+					""pupilDistance"":	96,
+					""livenessDetectionStatus"":	""notLiveFace"",
+					""faceSnapThermometryEnabled"":	""true"",
+					""currTemperature"":	36.8,
+					""isAbnomalTemperature"":	""true"",
+					""thermometryUnit"":	""celsius"",
+					""alarmTemperature"":	36.6
 				}]
 		}],
 	""uid"":	""2019112911044604700I0KP54zkoQA5661Mg003E5lRr7I2le0C7LYVFIKnFCON""

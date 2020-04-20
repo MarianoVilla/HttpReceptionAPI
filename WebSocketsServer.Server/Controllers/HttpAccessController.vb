@@ -6,6 +6,7 @@ Imports System.Reflection
 Imports System.Web.Http
 Imports Alpha.Utilidades.General
 Imports Newtonsoft.Json
+Imports Newtonsoft.Json.Linq
 
 Namespace Controllers
     ''' <summary>
@@ -54,6 +55,15 @@ Namespace Controllers
 
                 Dim DataHandler As HttpDefaultDataHandler = ProcessMultipart(provider, root)
 
+                Dim Json = JObject.Parse(DataHandler.FormItems.Where(Function(x) Not x.IsAFile).FirstOrDefault().Raw)
+
+                Dim IPAddress = Json("ipAddress")
+
+                Dim CurrTemperature = Json.SelectToken("faceCapture[0].faces[0].currTemperature")
+                Dim Height = Json.SelectToken("faceCapture[0].faces[0].faceRect.height")
+
+
+                Dim Base64String = Convert.ToBase64String(DataHandler.FormItems.Where(Function(x) x.IsAFile).FirstOrDefault().Data)
 
 
 
