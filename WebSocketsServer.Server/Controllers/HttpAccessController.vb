@@ -5,6 +5,8 @@ Imports System.Net.Http.Headers
 Imports System.Reflection
 Imports System.Web.Http
 Imports Alpha.Utilidades.General
+Imports Amazon.QLDB.Driver
+Imports Amazon.Runtime
 Imports Newtonsoft.Json
 Imports Newtonsoft.Json.Linq
 
@@ -53,6 +55,11 @@ Namespace Controllers
 
             Try
 
+
+
+
+
+
                 Dim DataHandler As HttpDefaultDataHandler = ProcessMultipart(provider, root)
 
                 Dim Json = JObject.Parse(DataHandler.FormItems.Where(Function(x) Not x.IsAFile).FirstOrDefault().Raw)
@@ -64,9 +71,6 @@ Namespace Controllers
 
 
                 Dim Base64String = Convert.ToBase64String(DataHandler.FormItems.Where(Function(x) x.IsAFile).FirstOrDefault().Data)
-
-
-
 
                 'At this point, you have an HttpDefaultDataHandler (see HttpDefaultDataHandler) with all the items in this request.
                 'To handle the data, you would save or process the data, like so:
