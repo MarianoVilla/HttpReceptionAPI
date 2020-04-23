@@ -1,14 +1,11 @@
 ﻿Imports System.IO
 Imports System.Net
 Imports System.Net.Http
-Imports System.Net.Http.Headers
-Imports System.Reflection
 Imports System.Web.Http
 Imports Alpha.Utilidades.General
-Imports Amazon.QLDB.Driver
-Imports Amazon.Runtime
 Imports Newtonsoft.Json
 Imports Newtonsoft.Json.Linq
+Imports QLDB.Interface
 
 Namespace Controllers
     ''' <summary>
@@ -57,9 +54,6 @@ Namespace Controllers
 
 
 
-
-
-
                 Dim DataHandler As HttpDefaultDataHandler = ProcessMultipart(provider, root)
 
                 Dim Json = JObject.Parse(DataHandler.FormItems.Where(Function(x) Not x.IsAFile).FirstOrDefault().Raw)
@@ -71,6 +65,69 @@ Namespace Controllers
 
 
                 Dim Base64String = Convert.ToBase64String(DataHandler.FormItems.Where(Function(x) x.IsAFile).FirstOrDefault().Data)
+
+
+
+
+
+
+                Dim ApiKey = "vAyJVZf3zXV4qLoQc4vENFFuzkDIESH02uM9GMuqXMseQRa3o0"
+
+
+                QldbClient.QldbApiUri = "https://3990aedd.ngrok.io/api/qldb"
+
+                Dim ExampleInsert = New QldbRequestModel() With
+                {
+                .AccessKey = "AKIAVJZSOSR5VBHH7BX5",
+                .SecretKey = "LZCospUIeajQcxli5lvChmkDXo4aDfR1qFgu9x7x",
+                .LedgerName = "ProgrammaticLedger",
+                .Statement = "INSERT INTO Person {'FirstName' : 'NewPerson', 'LastName' : 'NewPersonLastName', 'DOB' : `1963-08-19T`, 'GovId' : 'LEWISR261LL', 'GovIdType' : 'Driver License', 'Address' : '1719 University Street, Seattle, WA, 98109'}",
+                .TableName = "Person",
+                .ApiKey = ApiKey
+                }
+
+                Dim QldbResponse = QldbClient.QldbWrite(ExampleInsert)
+                Debug.Write("Qldb insert response: " + QldbResponse)
+
+
+                Dim ExampleReadRequest = New QldbRequestModel() With
+                {
+                    .AccessKey = "AKIAVJZSOSR5VBHH7BX5",
+                    .SecretKey = "LZCospUIeajQcxli5lvChmkDXo4aDfR1qFgu9x7x",
+                    .LedgerName = "ProgrammaticLedger",
+                    .Statement = "SELECT * FROM Person;",
+                    .TableName = "Person",
+                    .ApiKey = ApiKey
+                }
+
+                QldbResponse = QldbClient.QldbRead(ExampleReadRequest)
+                Debug.Write("Qldb read response: " + QldbResponse)
+
+
+                Dim ExampleDelete = New QldbRequestModel() With
+                {
+                .AccessKey = "AKIAVJZSOSR5VBHH7BX5",
+                .SecretKey = "LZCospUIeajQcxli5lvChmkDXo4aDfR1qFgu9x7x",
+                .LedgerName = "ProgrammaticLedger",
+                .Statement = "DELETE FROM Person;",
+                .TableName = "Person",
+                .ApiKey = ApiKey
+                }
+
+                QldbResponse = QldbClient.QldbWrite(ExampleDelete)
+                Debug.Write("Qldb delete response: " + QldbResponse)
+
+
+
+
+
+
+
+
+
+
+
+
 
                 'At this point, you have an HttpDefaultDataHandler (see HttpDefaultDataHandler) with all the items in this request.
                 'To handle the data, you would save or process the data, like so:
@@ -88,6 +145,30 @@ Namespace Controllers
 
         End Function
 
+        Function QldbRead(Uri As String) As String
+
+
+            Dim request As WebRequest
+            request = WebRequest.Create("https://localhost:44304/api/qldb/read")
+            Dim response As WebResponse
+            Dim postData As String = "{""ledgerName"": ""ProgrammaticLedger"", ""accessKey"": ""AKIAVJZSOSR5VBHH7BX5"", ""secretKey"": ""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"", ""tableName"": null, ""statement"": ""Select * FROM Person;""}"
+            Dim data As Byte() = Encoding.UTF8.GetBytes(postData)
+
+
+            request.Method = "POST"
+            request.ContentType = "application/json"
+            request.ContentLength = data.Length
+
+            Dim stream As Stream = request.GetRequestStream()
+            stream.Write(data, 0, data.Length)
+            stream.Close()
+
+            response = request.GetResponse()
+            Dim sr As New StreamReader(response.GetResponseStream())
+
+            QldbRead = sr.ReadToEnd()
+
+        End Function
         Private Function ProcessMultipart(Provider As MultipartFormDataStreamProvider, root As String) As HttpDefaultDataHandler
 
             'By default, the controller is using an HttpDefaultDataHandler. Still, if you want to make it more dynamic,

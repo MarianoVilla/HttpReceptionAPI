@@ -1,0 +1,34 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\QLDB.Interface\QLDB.Interface.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Amazon.IonDotnet">
+      <HintPath>..\WebSocketsServer.Server\AmazonQLDBDriver.UICore\Amazon.IonDotnet.dll</HintPath>
+    </Reference>
+    <Reference Include="Amazon.IonHashDotnet">
+      <HintPath>..\WebSocketsServer.Server\AmazonQLDBDriver.UICore\Amazon.IonHashDotnet.dll</HintPath>
+    </Reference>
+    <Reference Include="Amazon.QLDB.Driver">
+      <HintPath>..\WebSocketsServer.Server\AmazonQLDBDriver.UICore\Amazon.QLDB.Driver.dll</HintPath>
+    </Reference>
+    <Reference Include="AWSSDK.Core">
+      <HintPath>..\WebSocketsServer.Server\AmazonQLDBDriver.UICore\AWSSDK.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="AWSSDK.QLDBSession">
+      <HintPath>..\WebSocketsServer.Server\AmazonQLDBDriver.UICore\AWSSDK.QLDBSession.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+
+</Project>
