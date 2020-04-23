@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using AmazonQLDB.ServiceCore;
 using QLDB.Interface;
+using Microsoft.Extensions.Configuration;
 
 namespace QLDB.RestApi.Controllers
 {
@@ -14,13 +15,16 @@ namespace QLDB.RestApi.Controllers
     [ApiController]
     public class QldbController : ControllerBase
     {
-        private string ApiKey = "vAyJVZf3zXV4qLoQc4vENFFuzkDIESH02uM9GMuqXMseQRa3o0";
+        private string ApiKey;
         private readonly ILogger<QldbController> _logger;
+        private readonly IConfiguration _configuration;
         ConnectionService Connection = new ConnectionService();
 
-        public QldbController(ILogger<QldbController> logger)
+        public QldbController(ILogger<QldbController> logger, IConfiguration configuration)
         {
             this._logger = logger;
+            this._configuration = configuration;
+            this.ApiKey = _configuration.GetValue<string>("ApiSettings:ApiKey");
         }
 
         [HttpPost]
